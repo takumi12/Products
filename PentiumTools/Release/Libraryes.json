@@ -1,0 +1,23 @@
+[
+  {
+    "LIBRARY": {
+      "ozp.dll": 0,
+      "ozj.dll": 1,
+      "ozd.dll": 2
+    },
+    "Files": {
+      ".ozt": 0,
+      ".png": 0,
+      ".OZT": 0,
+      ".PNG": 0,
+      ".ozj": 1,
+      ".jpg": 1,
+      ".OZJ": 1,
+      ".JPG": 1,
+      ".ozd": 2,
+      ".dds": 2,
+      ".OZD": 2,
+      ".DDS": 2
+    }
+  }
+]

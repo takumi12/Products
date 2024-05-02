@@ -1,0 +1,32 @@
+﻿Compilación iniciada a las 01/05/2024 07:05:28 p. m..
+     1>Proyecto "C:\Users\NETMASTER\source\repos\MuInterface\GFX\gfx\gfx.vcxproj" en el nodo 2 (build destinos).
+     1>InitializeBuildStatus:
+         Se creará "GL_Release_Static\gfx.unsuccessfulbuild" porque se especificó "AlwaysCreate".
+       ClCompile:
+         Todas las salidas están actualizadas.
+         Todas las salidas están actualizadas.
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /I..\..\SDK\Include /I..\..\SDK\Include\GFx /I..\..\SDK\Src\GRenderer /I..\..\SDK\Src\GKernel /I..\..\SDK\Src\GFxPlayer /Zi /nologo /W3 /WX- /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _WINDOWS /D _USRDLL /D OZT_EXPORTS /D CONSOLE=1 /D _WINDLL /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Yu"StdAfx.h" /Fp"GL_Release_Static\PropertyHandle.pch" /Fo"GL_Release_Static\\" /Fd"GL_Release_Static\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt CFrameEIHandler.cpp CGFxManager.cpp
+         CFrameEIHandler.cpp
+         CGFxManager.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\NETMASTER\source\repos\MuInterface\GFX\Bin\GL_Release_Static\PropertyHandle.st" /INCREMENTAL:NO /NOLOGO /LIBPATH:..\..\SDK\Lib /LIBPATH:..\..\SDK\Lib\GFx glprocs.lib imm32.lib winmm.lib ws2_32.lib Opengl32.lib libgfx.lib libgrenderer_gl.lib libjpeg.lib libpng.lib zlib.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:libc.lib /MANIFEST /ManifestFile:"GL_Release_Static\PropertyHandle.st.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\NETMASTER\source\repos\MuInterface\GFX\Bin\GL_Release_Static\PropertyHandle.pdb" /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\NETMASTER\source\repos\MuInterface\GFX\Bin\GL_Release_Static\PropertyHandle.lib" /MACHINE:X86 /DLL GL_Release_Static\dllmain.obj
+         GL_Release_Static\ErrorReport.obj
+         GL_Release_Static\CGFxFontConfigParser.obj
+         GL_Release_Static\CFrameEIHandler.obj
+         GL_Release_Static\CGFxManager.obj
+         GL_Release_Static\stdafx.obj
+         GL_Release_Static\Util.obj
+            Creando biblioteca C:\Users\NETMASTER\source\repos\MuInterface\GFX\Bin\GL_Release_Static\PropertyHandle.lib y objeto C:\Users\NETMASTER\source\repos\MuInterface\GFX\Bin\GL_Release_Static\PropertyHandle.exp
+         Generando código
+         Generación de código finalizada
+         gfx.vcxproj -> C:\Users\NETMASTER\source\repos\MuInterface\GFX\Bin\GL_Release_Static\PropertyHandle.st
+       Manifest:
+         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\NETMASTER\source\repos\MuInterface\GFX\Bin\GL_Release_Static\PropertyHandle.st;#2" /manifest GL_Release_Static\PropertyHandle.st.intermediate.manifest
+       FinalizeBuildStatus:
+         Se eliminará el archivo "GL_Release_Static\gfx.unsuccessfulbuild".
+         Aplicando tarea Touch a "GL_Release_Static\gfx.lastbuildstate".
+     1>Compilación del proyecto terminada "C:\Users\NETMASTER\source\repos\MuInterface\GFX\gfx\gfx.vcxproj" (build destinos).
+
+Compilación correcta.
+
+Tiempo transcurrido 00:00:01.90
