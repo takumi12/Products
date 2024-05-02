@@ -1,0 +1,128 @@
+/**********************************************************************
+
+Filename    :   GRectPacker.h
+Content     :   
+Created     :   2007
+Authors     :   Maxim Shemanarev
+
+Copyright   :   (c) 2001-2007 Scaleform Corp. All Rights Reserved.
+
+Notes       :   Specialized simple containers and functions
+
+Licensees may use this file in accordance with the valid Scaleform
+Commercial License Agreement provided with the software.
+
+This file is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING 
+THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR ANY PURPOSE.
+
+**********************************************************************/
+
+#ifndef INC_GRectPacker_H
+#define INC_GRectPacker_H
+
+#include "GArrayPaged.h"
+
+//----------------------------------------------------------------------------
+class GRectPacker
+{
+    enum { SID = GStat_Default_Mem };
+    enum { Packed = 0x80000000U };
+
+public:
+    struct RectType
+    {
+        unsigned x, y, Id;
+    }; 
+
+    struct PackType
+    {
+        unsigned StartRect;
+        unsigned NumRects;
+    }; 
+
+    GRectPacker();
+
+    UPInt GetNumBytes() const;
+
+    //============= Set parameters
+    void     SetWidth    (unsigned w) { Width  = w;}
+    void     SetHeight   (unsigned h) { Height = h;}
+    unsigned GetWidth()     const { return Width;  }
+    unsigned GetHeight()    const { return Height; }
+
+    //============= Prepare data and pack
+    void Clear()
+    {
+        SrcRects.Clear();
+        PackedRects.Clear();
+        Packs.Clear();
+        PackTree.Clear();
+        Failed.Clear();
+    }
+
+    void ClearAndRelease()
+    {
+        SrcRects.ClearAndRelease();
+        PackedRects.ClearAndRelease();
+        Packs.ClearAndRelease();
+        PackTree.ClearAndRelease();
+        Failed.ClearAndRelease();
+    }
+
+    void AddRect(unsigned w, unsigned h, unsigned id)
+    {
+        if(w && h && w <= Width && h <= Height)
+        {
+            RectType r;
+            r.x  = w;
+            r.y  = h;
+            r.Id = id;
+            SrcRects.PushBack(r);
+        }
+        else
+        {
+            Failed.PushBack(id);
+        }
+    }
+
+    void Pack();
+
+    //============= Access the result
+    UPInt           GetNumPacks()          const { return Packs.GetSize(); }
+    const PackType& GetPack(UPInt packIdx) const { return Packs[packIdx]; }
+    const RectType& GetRect(const PackType& pack, unsigned rectIdx) const
+    {
+        return PackedRects[pack.StartRect + rectIdx];
+    }
+    UPInt           GetNumFailed()       const { return Failed.GetSize(); }
+    unsigned        GetFailed(UPInt idx) const { return Failed[idx]; }
+
+private:
+    struct NodeType
+    {
+        unsigned x, y, Width, Height, Id, Node1, Node2;
+    };
+
+    static bool cmpRects(const RectType& a, const RectType& b)
+    {
+        if(b.y != a.y) return b.y < a.y;
+        return b.x < a.x;
+    }
+    void packRects(unsigned nodeIdx, unsigned start);
+    void splitSpace(unsigned nodeIdx, const RectType& rect);
+    void emitPacked();
+
+    unsigned                                 Width;
+    unsigned                                 Height;
+    unsigned                                 NumPacked;
+    unsigned                                 MinWidth;
+    unsigned                                 MinHeight;
+    GArrayPagedLH_POD<RectType, 8, 64, SID>  SrcRects;
+    GArrayPagedLH_POD<RectType, 8, 64, SID>  PackedRects;
+    GArrayPagedLH_POD<PackType, 4, 16, SID>  Packs;
+    GArrayPagedLH_POD<NodeType, 8, 64, SID>  PackTree;
+    GArrayPagedLH_POD<unsigned, 6, 64, SID>  Failed;
+};
+
+
+#endif

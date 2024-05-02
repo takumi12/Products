@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <assert.h>
 #include "Util.h"
 #include "CFrameEIHandler.h"
 
@@ -369,9 +368,9 @@ void CFrameEIHandler::ReceiveStrUID(const char* name)
 void CFSCommandHandler::Callback(GFxMovieView* pmovie, const char* pcommand, const char* parg)
 {
 	if (parg)
-		pLog->LogMessage("FsCallback: '%s' '%s'", pcommand, parg);
+		pLog->LogMessage(0, "FsCallback: '%s' '%s'", pcommand, parg);
 	else
-		pLog->LogMessage("FsCallback: '%s'", pcommand);
+		pLog->LogMessage(0, "FsCallback: '%s'", pcommand);
 
 	if (pCommand)
 	{
@@ -381,7 +380,7 @@ void CFSCommandHandler::Callback(GFxMovieView* pmovie, const char* pcommand, con
 
 void CExternalEIHandler::Callback(GFxMovieView* pmovieView, const char* methodName, const GFxValue* args, UInt numArgs)
 {
-	pLog->LogMessage("Callback! %s, nargs = %d", (methodName) ? methodName : "(null)", numArgs);
+	pLog->LogMessage(0, "Callback! %s, nargs = %d", (methodName) ? methodName : "(null)", numArgs);
 
 	if (methodName && strcmp(methodName, "UIInit") == 0)
 	{
@@ -393,26 +392,26 @@ void CExternalEIHandler::Callback(GFxMovieView* pmovieView, const char* methodNa
 		switch (args[i].GetType())
 		{
 		case GFxValue::VT_Boolean:
-			pLog->LogMessage("[VT_Boolean] arg(%d) = %s", i, (args[i].GetBool()) ? "true" : "false");
+			pLog->LogMessage(0, "[VT_Boolean] arg(%d) = %s", i, (args[i].GetBool()) ? "true" : "false");
 			break;
 		case GFxValue::VT_Number:
-			pLog->LogMessage("[VT_Number] arg(%d) = %f", i, args[i].GetNumber());
+			pLog->LogMessage(0, "[VT_Number] arg(%d) = %f", i, args[i].GetNumber());
 			break;
 		case GFxValue::VT_String:
-			pLog->LogMessage("[VT_String] arg(%d) = %s", i, args[i].GetString());
+			pLog->LogMessage(0, "[VT_String] arg(%d) = %s", i, args[i].GetString());
 			break;
 		case GFxValue::VT_Object:
-			pLog->LogMessage("[VT_Object] arg(%d):", i);
+			pLog->LogMessage(0, "[VT_Object] arg(%d):", i);
 			args[i].HashTable(GetHashMembers, NULL, (GFxValue*)&args[i]);
 			break;
 		case GFxValue::VT_Array:
 			break;
 		default:
-			pLog->LogMessage("arg(%d) = [desconocido: %d]", i, args[i].GetType());
+			pLog->LogMessage(0, "arg(%d) = [desconocido: %d]", i, args[i].GetType());
 			break;
 		}
 	}
-	pLog->LogMessage("");
+	pLog->LogMessage(0, "");
 
 	if (method)
 	{
@@ -485,24 +484,24 @@ void GetHashMembers(void* pClass, const char* member, void* val)
 			switch (HashObj.GetType())
 			{
 			case GFxValue::VT_Boolean:
-				pLog->LogMessage("->[VT_Boolean] member(%s) = %s", member, (HashObj.GetBool()) ? "true" : "false");
+				pLog->LogMessage(0, "->[VT_Boolean] member(%s) = %s", member, (HashObj.GetBool()) ? "true" : "false");
 				break;
 			case GFxValue::VT_Number:
-				pLog->LogMessage("->[VT_Number] member(%s) = %.2f", member, HashObj.GetNumber());
+				pLog->LogMessage(0, "->[VT_Number] member(%s) = %.2f", member, HashObj.GetNumber());
 				break;
 			case GFxValue::VT_String:
-				pLog->LogMessage("->[VT_String] member(%s) = %s", member, HashObj.GetString());
+				pLog->LogMessage(0, "->[VT_String] member(%s) = %s", member, HashObj.GetString());
 				break;
 			case GFxValue::VT_Object:
-				pLog->LogMessage("->[VT_Object] member(%s)", member);
+				pLog->LogMessage(0, "->[VT_Object] member(%s)", member);
 				break;
 			case GFxValue::VT_Array:
-				pLog->LogMessage("->[VT_Array] member(%s)", member);
+				pLog->LogMessage(0, "->[VT_Array] member(%s)", member);
 				break;
 			case GFxValue::VT_DisplayObject:
-				pLog->LogMessage("->[VT_DisplayObject] member(%s)", member);
+				pLog->LogMessage(0, "->[VT_DisplayObject] member(%s)", member);
 			default:
-				pLog->LogMessage("->[VT_Undefined] member(%s)", member);
+				pLog->LogMessage(0, "->[VT_Undefined] member(%s)", member);
 				break;
 			}
 		}

@@ -17,6 +17,7 @@
 #pragma warning( disable : 4154 )
 #pragma warning( disable : 4733 )
 #pragma warning( disable : 4620 )
+#pragma warning( disable : 4786)
 
 #include "targetver.h"
 #define WIN32_LEAN_AND_MEAN             // Excluir material rara vez utilizado de encabezados de Windows
@@ -26,13 +27,14 @@
 #include <string>
 #include <GL/gl.h>
 #include <glprocs.h>
-
+#include <iostream>
 #include <map>
 #include <vector>
 #include <algorithm> 
 #include <time.h>
 #include <Mmsystem.h>
-#include "ErrorReport.h"
+#include <assert.h>
+#include "ConsoleDebug.h"
 
 #define IMAGEN_TITLE							"ScaleForm"
 #define SAFE_DELETE(p)							{ if(p) { delete (p);     (p)=NULL; } }
