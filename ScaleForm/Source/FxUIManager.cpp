@@ -36,7 +36,6 @@ bool CFxUIManager::Initialize()
 	{
 		std::wstring pathW = GetExecutablePath() + L"\\Data\\Interface\\ScaleForm\\";
 
-
 		m_AbsolutePath = WStringToString(pathW);
 
 		if (LoadDefaultFontConfigFromPath(m_AbsolutePath.c_str()) == FALSE)
@@ -45,18 +44,17 @@ bool CFxUIManager::Initialize()
 		}
 		else
 		{
-			if (!GetLanguage(6, m_LanguageName))
+			std::string pathConfig = WStringToString(GetExecutablePath() + L"\\config.ini");
+
+			int FontIndex = GetPrivateProfileInt("SettingsFont", "font-conf-index", -1, pathConfig.c_str());
+
+			if (!GetLanguage(FontIndex, m_LanguageName))
 			{
 				strcpy(m_LanguageName, "Default");
 
 				pLog->LogMessage(2, "font load Fail!!\nGetLanguage FAIL!!!! \n");
 			}
 		}
-
-		//if(FontConfigs.GetSize() > 0)
-		//	FontConfigIndex %= (SInt)FontConfigs.GetSize();
-		//FontConfigIndex = 3;
-		//FontConfigIndex %= (SInt)FontConfigs.GetSize();
 
 		m_isCompletedLoad = TRUE;
 
@@ -393,7 +391,7 @@ void CFxUIManager::OnDestroyDevice()
 
 bool CFxUIManager::GetLanguage(int LanguageId, char* LanguageName)
 {
-	pLog->LogMessage(2, "[FontConfigs: %d]", FontConfigs.GetSize());
+	//pLog->LogMessage(2, "[FontConfigs: %d]", FontConfigs.GetSize());
 
 	if(!FontConfigs.GetSize())
 		return false;
