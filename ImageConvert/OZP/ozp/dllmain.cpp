@@ -191,17 +191,6 @@ bool ImageDecrypt(const char* filename, const char* fileExport, int DumpHeader)
 
 		SOIL_free_image_data(image);
 		succes = true;
-
-		//if ((fp = fopen(fileExport, "wb"), fp != NULL))
-		//{
-		//	fwrite(pTempBuff, 1, size, fp);
-		//	fclose(fp);
-		//	CreateMessageBox(MB_OK | MB_ICONWARNING, IMAGEN_TITLE, "Imagen convertida Correctamente");
-		//}
-		//else
-		//{
-		//	CreateMessageBox(MB_OK | MB_ICONERROR, IMAGEN_TITLE, "No se pudo crear el archivo en la ruta: %s", fileExport);
-		//}
 	}
 	else
 	{

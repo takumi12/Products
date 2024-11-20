@@ -38,7 +38,7 @@ class CFrameEIHandler : public CNewUIObj
 public:
 	CFrameEIHandler();
 	virtual ~CFrameEIHandler();
-	static  bool Make(int _UIType, CGFxManager*_GfxRepo, const char* _pfilename, CInternalmethod* pcommand, CExternalmethod* method, UPInt _memoryArena = 0, GFxMovieView::AlignType AlignType = GFxMovieView::Align_TopLeft, FontConfig* _pconfig = NULL,const char* _languag = NULL);
+	static bool Make(int _UIType, CGFxManager*_GfxRepo, const char* Name, const char* _pfilename, CInternalmethod* pcommand, CExternalmethod* method, UPInt _memoryArena = 0, GFxMovieView::AlignType AlignType = GFxMovieView::Align_TopLeft, FontConfig* _pconfig = NULL,const char* _languag = NULL);
 
 	bool Render();
 	bool Update();
@@ -56,6 +56,12 @@ public:
 	void OnResetDevice();
 	void OnDestroyDevice();
 	void ReceiveStrUID(const char* name);
+	void SetName(const char* name) {
+		strcpy_s(_strName, name);
+	};
+	const char* GetName() {
+		return _strName;
+	};
 private:
 	bool OpenGLWin32App();
 	bool InitGFx(const char* pfilename, CInternalmethod* pcommand, CExternalmethod* method, UPInt memoryArena, GFxMovieView::AlignType AlignType, FontConfig* pconfig, const char* language);
@@ -72,6 +78,7 @@ private:
 	bool					m_bWireFrame;
 	DWORD					MovieLastTime;
 
+	char					_strName[120];
 	char					_strUID[120];
 };
 

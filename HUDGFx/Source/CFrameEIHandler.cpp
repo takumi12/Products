@@ -2,11 +2,17 @@
 #include "Util.h"
 #include "CFrameEIHandler.h"
 
-bool CFrameEIHandler::Make(int _UIType, CGFxManager* _GfxRepo, const char* _pfilename, CInternalmethod* pcommand, CExternalmethod* method, UPInt _memoryArena, GFxMovieView::AlignType AlignType, FontConfig* _pconfig, const char* _language)
+bool CFrameEIHandler::Make(int _UIType, CGFxManager* _GfxRepo, const char* Name, const char* _pfilename, CInternalmethod* pcommand, CExternalmethod* method, UPInt _memoryArena, GFxMovieView::AlignType AlignType, FontConfig* _pconfig, const char* _language)
 {
 	if (_GfxRepo == NULL)
 		return NULL;
+
 	CFrameEIHandler* temp(new CFrameEIHandler);
+
+	temp->SetName(Name);
+
+	pLog->LogMessage(0, "[Name: %s][Loadfile: %s]", Name, _pfilename);
+
 	if (!temp->InitGFx(_pfilename, pcommand, method, _memoryArena, AlignType, _pconfig, _language))
 	{
 		SAFE_DELETE(temp);
@@ -25,6 +31,7 @@ CFrameEIHandler::CFrameEIHandler()
 	MovieLastTime = 0;
 	pRenderer = NULL;
 	memset(_strUID, 0, sizeof(_strUID));
+	memset(_strName, 0, sizeof(_strName));
 }
 
 CFrameEIHandler::~CFrameEIHandler()
@@ -124,6 +131,11 @@ bool CFrameEIHandler::InitGFx(const char* pfilename, CInternalmethod* pcommand, 
 
 	pContainerMovie->SetVariable("_global.gfxLanguage", language);
 
+	/*GFxValue pVal;
+	if(pContainerMovie->GetVariable(&pVal, "_root._name"))
+	{
+		pLog->LogMessage(4, "[%s]", pVal.GetString());
+	}*/
 	pContainerMovie->SetVariable("_root.isClient", true);
 
 	return true;
@@ -263,8 +275,7 @@ void CFrameEIHandler::InvokeObj(const char* pmethodName, CEICommandContainer* Ob
 	{
 		char stCommand[250];
 		sprintf_s(stCommand, "_root.%s.%s", _strUID, pmethodName);
-
-		pContainerMovie->Invoke(pmethodName, &pObjet, 1);
+		pContainerMovie->Invoke(stCommand, &pObjet, 1);
 	}
 }
 
@@ -308,7 +319,6 @@ void CFrameEIHandler::InvokeArray(const char* pmethodName, CEICommandContainer* 
 	{
 		char stCommand[250];
 		sprintf_s(stCommand, "_root.%s.%s", _strUID, pmethodName);
-
 		pContainerMovie->Invoke(stCommand, &pArray, 1);
 	}
 }
@@ -319,7 +329,6 @@ void CFrameEIHandler::Invoke(const char* pmethodName, const char* pargFmt, va_li
 	{
 		char stCommand[250];
 		sprintf_s(stCommand, "_root.%s.%s", _strUID, pmethodName);
-
 		pContainerMovie->InvokeArgs(stCommand, pargFmt, args);
 	}
 }
@@ -362,15 +371,18 @@ void CFrameEIHandler::OnDestroyDevice()
 
 void CFrameEIHandler::ReceiveStrUID(const char* name)
 {
-	strcpy_s(_strUID, name);
+	if(strlen(_strUID) == 0)
+	{
+		strcpy_s(_strUID, name);
+	}
 }
 
 void CFSCommandHandler::Callback(GFxMovieView* pmovie, const char* pcommand, const char* parg)
 {
 	if (parg)
-		pLog->LogMessage(0, "FsCallback: '%s' '%s'", pcommand, parg);
+		pLog->LogMessage(0, "[%s] FsCallback: '%s' '%s'", inheritance->GetName(), pcommand, parg);
 	else
-		pLog->LogMessage(0, "FsCallback: '%s'", pcommand);
+		pLog->LogMessage(0, "[%s] FsCallback: '%s'", inheritance->GetName(), pcommand);
 
 	if (pCommand)
 	{
@@ -380,9 +392,13 @@ void CFSCommandHandler::Callback(GFxMovieView* pmovie, const char* pcommand, con
 
 void CExternalEIHandler::Callback(GFxMovieView* pmovieView, const char* methodName, const GFxValue* args, UInt numArgs)
 {
-	pLog->LogMessage(0, "Callback! %s, nargs = %d", (methodName) ? methodName : "(null)", numArgs);
+	pLog->LogMessage(1, "[%s] Callback! %s, nargs = %d", inheritance->GetName(), (methodName) ? methodName : "(null)", numArgs);
 
 	if (methodName && strcmp(methodName, "UIInit") == 0)
+	{
+		inheritance->ReceiveStrUID(args[0].GetString());
+	}
+	else if (methodName && strcmp(methodName, "onLoad") == 0)
 	{
 		inheritance->ReceiveStrUID(args[0].GetString());
 	}
@@ -407,7 +423,7 @@ void CExternalEIHandler::Callback(GFxMovieView* pmovieView, const char* methodNa
 		case GFxValue::VT_Array:
 			break;
 		default:
-			pLog->LogMessage(0, "arg(%d) = [desconocido: %d]", i, args[i].GetType());
+			pLog->LogMessage(2, "arg(%d) = [desconocido: %d]", i, args[i].GetType());
 			break;
 		}
 	}

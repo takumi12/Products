@@ -6,7 +6,7 @@
 #include "ImageConvert.h"
 #include "CGMLibrayMng.h"
 #include "CGMFileSystem.h"
-#include "CGMFilesMap.h"
+#include "CGMFilesOBB.h"
 #include "CGMActionLog.h"
 #include "imgui_impl_win32.h"
 #include "imgui_impl_opengl3.h"
@@ -209,9 +209,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	{
 		EnableMenuItem(hMainMenu, ID_ARCHIVO_ABRIR, MF_BYCOMMAND | MF_GRAYED);
 
-		EnableMenuItem(hMainMenu, ID_MAPSFILES_32775, MF_BYCOMMAND | MF_GRAYED);
+		//EnableMenuItem(hMainMenu, ID_MAPSFILES_32775, MF_BYCOMMAND | MF_GRAYED);
 
-		EnableMenuItem(hMainMenu, ID_MAPSFILES_32776, MF_BYCOMMAND | MF_GRAYED);
+		//EnableMenuItem(hMainMenu, ID_MAPSFILES_32776, MF_BYCOMMAND | MF_GRAYED);
 
 		EnableMenuItem(hMainMenu, ID_GRAPHICFILES_3DBMD, MF_BYCOMMAND | MF_GRAYED);
 	}
@@ -264,6 +264,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 			{
 				GMFilesMap->OpenFileObject();
 			}
+			break;
+		case ID_MAPSFILES_32775:
+			GMFilesMap->OpenFileATT();
+			break;
+		case ID_MAPSFILES_32776:
+			GMFilesMap->OpenFileMap();
+			break;
+		case ID_MAPSFILES_32778:
+			GMFilesMap->OpenTerrainHeight();
 			break;
 		case ID_MAPSFILES_32777:
 			{

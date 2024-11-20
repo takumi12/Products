@@ -32,8 +32,6 @@ public:
 
 APIEXPORT void SynchronizeInit(CSynchronize*& ma)
 {
-	static GFxSystem gfxInit;
-
 	ma = new CSynchronize;
 	ma->inheritance = new CGFxManager;
 	ma->AddObj = &CGFxManager::AddObjWrapper;
@@ -56,6 +54,14 @@ APIEXPORT void SynchronizeInit(CSynchronize*& ma)
 
 BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved )
 {
+	if(ul_reason_for_call == DLL_PROCESS_ATTACH)
+	{
+		GFxSystem::Init();
+	}
+	if(ul_reason_for_call == DLL_PROCESS_DETACH)
+	{
+		GFxSystem::Destroy();
+	}
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:

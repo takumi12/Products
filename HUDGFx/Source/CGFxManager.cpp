@@ -68,7 +68,7 @@ bool CGFxManager::AddObj(DWORD index, CInternalmethod* pcommand, CExternalmethod
 
 		std::string filename = m_AbsolutePath;
 		filename += FileName;
-		return CFrameEIHandler::Make(index, this, filename.c_str(), pcommand, method, 0 , AlignType, pconfig, language);
+		return CFrameEIHandler::Make(index, this, FileName, filename.c_str(), pcommand, method, 0 , AlignType, pconfig, language);
 	}
 	return true;
 }
